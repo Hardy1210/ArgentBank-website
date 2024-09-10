@@ -1,0 +1,42 @@
+@use '../../assets/styles/variables/colors';
+.main__nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+    font-weight: bold;
+    &--logo {
+        color: colors.$color-text;
+        .main__nav--img {
+            max-width: 100%;
+            width: 200px;
+        }
+        .sr__only {
+            border: 0 !important;
+            clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+            -webkit-clip-path: inset(50%) !important;
+            clip-path: inset(50%) !important; /* 2 */
+            height: 1px !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            padding: 0 !important;
+            position: absolute !important;
+            width: 1px !important;
+            white-space: nowrap !important;
+        }
+    }
+
+    .main__nav--item {
+        margin-right: 0.5rem;
+        color: colors.$color-text;
+        .icon {
+            margin-right: 5px;
+        }
+    }
+    .active {
+        color: colors.$secondary-color;
+    }
+    .main__nav--item:hover {
+        text-decoration: underline;
+    }
+}
