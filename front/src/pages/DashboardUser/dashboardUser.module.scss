@@ -1,0 +1,17 @@
+@use '../../assets/styles/variables/colors';
+
+.account__container {
+    background-color: colors.$color-dashboard;
+    color: colors.$secondary-color;
+    .user {
+        padding: 30px 0;
+        .user__info {
+            font-size: 2em;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        
+    }
+    
+}

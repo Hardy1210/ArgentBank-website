@@ -1,73 +1,90 @@
-
 import Logo from '../../assets/images/argentBankLogo-1.webp'
 import Header from '../../components/Header/Header'
+import Footer from '../../components/Footer/Footer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { loginRequest } from '../../utils/apiLogin'  // Importation du fichier de requête
 import styles from '../Login/login.module.scss'
 
-function Login () {
-
-     // Déclaration des états pour les champs de formulaire
-  const [username, setUsername] = useState('');
+function Login() {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   // Fonction pour gérer la soumission du formulaire
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Empêche le rechargement de la page
-    console.log('Username:', username);
-    console.log('Password:', password);
-    console.log('Remember me:', rememberMe);
-    // Ici, tu peux ajouter la logique pour traiter le formulaire, comme une requête API
+  const handleSubmit = async (e) => {
+    e.preventDefault();  // Empêche le rechargement de la page
+
+    try {
+      const { token, userName } = await loginRequest(email, password);
+
+      if (rememberMe) {
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('userName', userName);
+      } else {
+        sessionStorage.setItem('authToken', token);
+        sessionStorage.setItem('userName', userName);
+      }
+
+      navigate('/dashboard-user');
+    } catch (error) {
+      console.error('Error during login:', error);
+      setError(error.message);
+    }
   };
-    return (
-        <>
-            <Header logoSrc={Logo} logoAlt={"logo argent bank"}/>
-            <main className={`${styles.main} ${styles['bg-dark']}`}>
-                <section className={styles['sign-in-content']}>
-                    <FontAwesomeIcon className={styles['icon']} icon={faCircleUser} />
-                    <h1>Sign In</h1>
-                    <form onSubmit={handleSubmit}>
-                        <div className={styles['input__wrapper']}>
-                            <label htmlFor="username">Username</label>
-                            <input
-                                type="text"
-                                id="username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)} // Mets à jour l'état
-                            />
-                        </div>
 
-                        <div className={styles['input__wrapper']}>
-                            <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                id="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)} // Mets à jour l'état
-                            />
-                        </div>
+  return (
+    <>
+      <Header logoSrc={Logo} logoAlt={"logo argent bank"} />
+      <main className={`${styles.main} ${styles['bg-dark']}`}>
+        <section className={styles['sign-in-content']}>
+          <FontAwesomeIcon className={styles['icon']} icon={faCircleUser} />
+          <h1>Sign In</h1>
+          <form onSubmit={handleSubmit}>
+            <div className={styles['input__wrapper']}>
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
 
-                        <div className={styles['input__remember']}>
-                            <input
-                                type="checkbox"
-                                id="remember-me"
-                                checked={rememberMe}
-                                onChange={(e) => setRememberMe(e.target.checked)} // Mets à jour l'état
-                            />
-                            <label htmlFor="remember-me">Remember me</label>
-                        </div>
+            <div className={styles['input__wrapper']}>
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
 
-                        <button type="submit" className={styles['sign-in-button']}>Sign In</button>
-                    </form>
-                </section>
-            </main>
+            <div className={styles['input__remember']}>
+              <input
+                type="checkbox"
+                id="remember-me"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+              <label htmlFor="remember-me">Remember me</label>
+            </div>
 
-        </>
-        
+            <button type="submit" className={styles['sign-in-button']}>Sign In</button>
 
-    )
+            {error && <p className={styles.error}>{error}</p>}
+          </form>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
 }
 
-export default Login
+export default Login;

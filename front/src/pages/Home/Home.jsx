@@ -11,9 +11,7 @@ function Home () {
 
     return (
         <>
-            <div>
-                <Header logoSrc={Logo} logoAlt={"logo argent bank"}/>
-            </div>
+            <Header logoSrc={Logo} logoAlt={"logo argent bank"}/>
             <main>
                 <div className={styles['banner__container']}>
                     <Banner banner={BannerImg} bannerAlt={'une plant avec des mones'} className={styles['banner']}/>

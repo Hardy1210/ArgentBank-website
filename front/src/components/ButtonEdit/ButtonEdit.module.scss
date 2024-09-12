@@ -1,0 +1,6 @@
+@use '../../assets/styles/variables/colors';
+
+.btn__edit {
+    color: colors.$secondary-color;
+    background-color: colors.$primary-color;
+}

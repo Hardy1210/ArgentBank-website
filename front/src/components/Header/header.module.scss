@@ -26,17 +26,40 @@
         }
     }
 
-    .main__nav--item {
-        margin-right: 0.5rem;
-        color: colors.$color-text;
+    .user__menu {
+        display: flex;
+        column-gap: 15px;
+        color: #2c3e50;
+        flex-wrap: wrap;
+        //align-items: center;
         .icon {
             margin-right: 5px;
         }
+        .icon-out {
+            margin-right: 5px;
+            font-size: 0.9em;
+        }
+    }
+    
+    .hover:hover {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    } 
+
+    .main__nav--item {
+        margin-right: 0.5rem;
+        color: colors.$color-text;
+        
+        
+        
     }
     .active {
-        color: colors.$secondary-color;
+        color: colors.$primary-color;
     }
     .main__nav--item:hover {
         text-decoration: underline;
     }
+
+    
 }
+
