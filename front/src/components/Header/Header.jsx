@@ -29,7 +29,7 @@ function Header({ logoSrc, logoAlt } ) {
     const navigate = useNavigate()
     //recuperation de userName et firstName depui localStorage
     const userName = localStorage.getItem('userName') || sessionStorage.getItem('userName')
-    const firstName = localStorage.getItem('firstName') || sessionStorage.getItem('firstName')
+    //const firstName = localStorage.getItem('firstName') || sessionStorage.getItem('firstName')
     //console.log('First name from storage:', firstName);
     const handleLogout = () => {
         localStorage.removeItem('authToken');
@@ -56,7 +56,7 @@ function Header({ logoSrc, logoAlt } ) {
                                 className={styles['hover']} 
                                 to="/dashboard-user">
                                 <FontAwesomeIcon className={styles['icon']} icon={faCircleUser} />
-                                <span>{firstName ? firstName : 'Loading...'}</span>
+                                <span>{userName ? userName : 'Loading...'}</span>
                             </NavLink>
                             
                             <NavLink

@@ -1,17 +1,17 @@
 @use '../../assets/styles/variables/colors';
 
-.account__container {
+.main {
     background-color: colors.$color-dashboard;
     color: colors.$secondary-color;
+    flex: 1;
     .user {
-        padding: 30px 0;
+        padding: 30px 0px;
         .user__info {
             font-size: 2em;
             display: flex;
             flex-direction: column;
             margin-bottom: 20px;
+            font-weight: bold;
         }
-        
-    }
-    
+    }   
 }

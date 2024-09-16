@@ -18,8 +18,8 @@ function EditUserInfo ({ user, onSubmit, onCancel}) {
     return (
         <div  className={styles['edit__container']}>
             <h2>Edit user info</h2>
-            <form className="user-edit-form" onSubmit={handleSubmit}>
-                <div className="form-group">
+            <form className={styles['user-edit-form']} onSubmit={handleSubmit}>
+                <div className={styles['form-group']}>
                     <label htmlFor="userName">User Name:</label>
                     <input
                     type="text"
@@ -30,9 +30,10 @@ function EditUserInfo ({ user, onSubmit, onCancel}) {
                     />
                 </div>
 
-                <div className="form-group">
+                <div className={styles['form-group']}>
                     <label htmlFor="firstName">First Name:</label>
                     <input
+                    className={styles['no-authorised']}
                     type="text"
                     id="firstName"
                     name="firstName"
@@ -41,9 +42,10 @@ function EditUserInfo ({ user, onSubmit, onCancel}) {
                     />
                 </div>
 
-                <div className="form-group">
+                <div className={styles['form-group']}>
                     <label htmlFor="lastName">Last Name:</label>
                     <input
+                    className={styles['no-authorised']}
                     type="text"
                     id="lastName"
                     name="lastName"
@@ -52,11 +54,11 @@ function EditUserInfo ({ user, onSubmit, onCancel}) {
                     />
                 </div>
 
-                <div className="form-buttons">
-                    <button type="submit" className="btn-submit">
-                        Save Changes
+                <div className={styles['form-buttons']}>
+                    <button type="submit" className={styles['btn-submit']}>
+                        Save
                     </button>
-                    <button type="button" className="btn-cancel" onClick={onCancel}>
+                    <button type="button" className={styles['btn-cancel']} onClick={onCancel}>
                         Cancel
                     </button>
                 </div>
@@ -67,8 +69,13 @@ function EditUserInfo ({ user, onSubmit, onCancel}) {
 }
 
 EditUserInfo.propTypes = {
-    user: PropTypes.string.isRequired,
-    onSubmit: PropTypes.string.isRequired,
-    onCancel: PropTypes.string.isRequired,
+    // "user" est un objet avec des clés spécifiques
+    user: PropTypes.shape({
+        firstName: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired,
+        userName: PropTypes.string.isRequired,
+      }).isRequired,  
+    onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
 }
 export default EditUserInfo

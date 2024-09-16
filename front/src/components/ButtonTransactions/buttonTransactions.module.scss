@@ -1,0 +1,19 @@
+@use '../../assets/styles/variables/colors';
+
+   .button {
+        background-color: colors.$primary-color;
+        color: colors.$secondary-color;
+        font-size: 1.1rem;
+        font-weight: bold;
+        //padding: 10px 20px;
+        width: 200px;
+        
+    } 
+
+ @media (max-width: 720px) {
+    .button {
+        display: block;
+        width: 100%;
+        margin-top: 1rem;
+    }
+ }

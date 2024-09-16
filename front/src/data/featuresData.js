@@ -1,6 +1,6 @@
-import chatIcon from '../assets/images/icon-chat.svg'
-import moneyIcon from '../assets/images/icon-money.svg'
-import securityIcon from '../assets/images/icon-security.svg'
+import chatIcon from '../assets/images/icon-chat-1.svg'
+import moneyIcon from '../assets/images/icon-money-1.svg'
+import securityIcon from '../assets/images/icon-security-1.svg'
 
 const featuresData = [
     {
@@ -14,7 +14,7 @@ const featuresData = [
       id: 2,
       title: "More savings means higher rates",
       description: "The more you save with us, the higher your interest rate will be!",
-      icon:moneyIcon,
+      icon: moneyIcon,
       alt: "Money icon"
     },
     {

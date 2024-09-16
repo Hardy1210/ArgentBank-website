@@ -19,9 +19,15 @@ function Home () {
                 <section className={styles['features']}>
                     <h2 className={styles['sr-only']}>Features</h2>
                      <div className={styles['features__container']}>
-                        <FeatureCard className={styles['features__item']} data={featuresData[0]}/>
-                        <FeatureCard className={styles['features__item']} data={featuresData[1]}/>
-                        <FeatureCard className={styles['features__item']} data={featuresData[2]}/>
+                        {featuresData.map((feature) => (
+                            <FeatureCard 
+                            key={feature.id}
+                            className={styles['features__item']}
+                            data={feature}
+                            />
+
+                        ))}
+                       
                      </div>
                 </section>
             </main>

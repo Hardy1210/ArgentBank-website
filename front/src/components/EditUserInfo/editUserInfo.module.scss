@@ -1,0 +1,57 @@
+@use '../../assets/styles/variables/colors';
+
+.edit__container {
+    padding: 30px 0px;
+    width: 300px;
+    margin: 0 auto;
+    text-align: left;
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    .user-edit-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        //padding: 0 30px;
+        .form-group {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 10px;
+            align-items: center;
+            justify-content: center;
+            label {
+                font-size: 0.9rem;
+            }
+            input {
+                margin-left: 5px;
+                padding: 5px 7px;
+                border-radius: 4px;
+                //largeur inputs
+                width: 50%;
+            }
+            .no-authorised {
+                background-color: rgb(168, 167, 167);
+            }
+        }
+        .form-buttons {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            button {
+                background-color: colors.$primary-color;
+                color: colors.$secondary-color;
+                border-radius: 2px;
+                width: 100%;
+                padding: 15px 0;
+                
+            }
+        }
+        
+    }
+
+
+}
