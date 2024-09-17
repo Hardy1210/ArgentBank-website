@@ -1,9 +1,14 @@
-import PropTypes from 'prop-types'; 
+import PropTypes from 'prop-types';
+import {useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styles from '../Header/header.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 //import { getUserProfile } from '../../utils/apiUser';
+
+//Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { logout, setUserProfile } from '../../redux/userSlice';// Importer l'action logout depuis userSlice
 
 import { NavLink } from 'react-router-dom';
 //import { fetchUserProfile } from '../../utils/apiUser'
@@ -25,10 +30,30 @@ function Header({ logoSrc, logoAlt } ) {
     //console.log('First name:', firstName);
     //console.log('First name from localStorage:', localStorage.getItem('firstName'));
     //console.log('First name from sessionStorage:', sessionStorage.getItem('firstName'));
-
+    //react router
     const navigate = useNavigate()
+    
+    //Redux
+    const userName = useSelector((state) => state.user.userName) 
+    //console.log('userName in Header:', userName);
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        //recuperer l'username
+        const storedUseName = localStorage.getItem('userName') || sessionStorage.getItem('userName')
+        if (storedUseName && !userName) {
+            dispatch(setUserProfile({
+                userName: storedUseName,
+                //firstName: '', // Ignorer firstName
+                //lastName: ''   // Ignorer lastName
+            }))
+        }
+    }, [dispatch, userName])
+    
     //recuperation de userName et firstName depui localStorage
-    const userName = localStorage.getItem('userName') || sessionStorage.getItem('userName')
+
+    //const userName = localStorage.getItem('userName') || sessionStorage.getItem('userName')
+    
     //const firstName = localStorage.getItem('firstName') || sessionStorage.getItem('firstName')
     //console.log('First name from storage:', firstName);
     const handleLogout = () => {
@@ -38,7 +63,13 @@ function Header({ logoSrc, logoAlt } ) {
         sessionStorage.removeItem('authToken');
         sessionStorage.removeItem('userName');
         sessionStorage.removeItem('firstName');
-        navigate('/login');
+       
+        navigate('/login')
+
+        // Déclencher l'action logout pour réinitialiser l'état utilisateur dans Redux
+        dispatch(logout())
+
+       
       }
 
     return (

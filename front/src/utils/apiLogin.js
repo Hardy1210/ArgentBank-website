@@ -15,5 +15,13 @@ export const loginRequest = async (email, password) => {
     }
   
     const data = await response.json();
-    return data.body;
+    
+    //console.log('API Response:', data);
+     // S'assurer que toutes les données nécessaires sont présentes dans la réponse
+    return {
+      token: data.body.token,
+      //userName: data.body.userName,  // Si l'API retourne également ces informations
+      //firstName: data.body.firstName,
+      //lastName: data.body.lastName,
+    }
   };

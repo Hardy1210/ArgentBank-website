@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Pour rediriger si nécessaire
+import { useNavigate } from 'react-router-dom'; 
+
+//Redux
+//avec useSelector on va acceder a l'etat global et amener la partie qui nous interesse
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserProfile, updateUserName } from '../../redux/userSlice';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer'
 import EditUserInfo from '../../components/EditUserInfo/EditUserInfo';
@@ -15,33 +20,42 @@ import bankAccountsData from '../../utils/bankAccountsData'
 
 
 function DashboardUser() {
-  const [userProfile, setUserProfile] = useState(null); // Stocker le profil utilisateur
-  const [error, setError] = useState(null) // Stocker les erreurs potentielles
+  //cet ligne de code n'est pas necessaire avec Redux
+  //const [userProfile, setUserProfile] = useState(null); // Stocker le profil utilisateur
+ 
   //eta pour controle l'affichage du formulaire d'edition
   const [isEditingUser, setIsEditingUser] = useState(false)
   // Utiliser les donees des comptes importés STATIQUES juste pour exemple
   const accounts = bankAccountsData.accounts;
   const navigate = useNavigate();
 
+  //redux
+  const dispatch = useDispatch()
+   // Utiliser Redux pour récupérer le profil utilisateur
+  const userProfile = useSelector((state) => state.user)
+
   //extraction de donnees de l'utilisateur
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const profile = await getUserProfile(); // Appel de la fonction pour récupérer le profil
-        setUserProfile(profile);  // Stocker le profil utilisateur dans l'état
-        
-        // Enregistrer le prénom dans localStorage ou sessionStorage
-        localStorage.setItem('userName', profile.userName);  // ou sessionStorage.setItem('userName', profile.userName);
-        sessionStorage.setItem('userName', profile.userName)
+        const storedToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+
+        if (storedToken) {
+          const profile = await getUserProfile(storedToken); // Appel à l'API avec le token
+          dispatch(setUserProfile(profile)); // Mettre à jour le profil utilisateur dans Redux
+        } else {
+          navigate('/login'); // Rediriger si l'utilisateur n'est pas connecté
+        }
       } catch (error) {
         console.error('Error fetching user profile:', error);
-        setError(error.message); // Enregistrer l'erreur
-        navigate('/login');  // Rediriger vers la page de connexion si pas de token
       }
     };
 
-    fetchUserProfile(); // Appeler la fonction au chargement du composant
-  }, [navigate]);
+    // Si userProfile est vide, on appelle l'API
+    if (!userProfile || !userProfile.userName) {
+      fetchUserProfile();
+    }
+  }, [dispatch, navigate, userProfile]);
 
   //fonction pour gerer le clic du buitton
   const handleEditClick = () => {
@@ -69,32 +83,17 @@ function DashboardUser() {
         throw Error('Failed to update user profile')
       }
 
-      const updateProfile = await response.json()
-      setUserProfile(updateProfile)
-      setIsEditingUser(false)
-
-      localStorage.setItem('userName', updateProfile.userName)
-      sessionStorage.setItem('userName', updateProfile.userName)
-
-
+      const updatedProfile = await response.json();
+      dispatch(updateUserName(updatedProfile.userName)); // Mettre à jour dans Redux
+      setIsEditingUser(false);
     } catch (error) {
-      console.error('Error updaiting user profile', error)
+      console.error('Error updating user profile', error);
     }
+  };
 
-    // Mettre à jour les informations de l'utilisateur ici (par ex: appel API pour mettre à jour)
-    console.log('Updated user data:', updateUserData);
-    //masquer le formulaire d'edition apres la submition
-    setIsEditingUser(false)
+  if (!userProfile || !userProfile.userName) {
+    return <p>Loading...</p>;
   }
-
-  if (error) {
-    return <p>{error}</p>;  // Afficher l'erreur si elle existe
-  }
-
-  if (!userProfile) {
-    return <p>Loading...</p>;  // Afficher un message de chargement en attendant les données
-  }
-
 
 
   return (

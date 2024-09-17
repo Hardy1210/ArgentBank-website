@@ -1,9 +1,19 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react' 
+
+//Redux
+import { useSelector, useDispatch } from 'react-redux';
+ // Importer l'action pour mettre à jour le userName
+import { updateUserName } from '../../redux/userSlice'
+
 import styles from '../EditUserInfo/EditUserInfo.module.scss'
 
-function EditUserInfo ({ user, onSubmit, onCancel}) {
-    const [userName, setUserName] = useState(user.userName || '')
+function EditUserInfo ({ onSubmit, onCancel}) {
+    // Utiliser Redux pour accéder à l'utilisateur actuel
+    const user = useSelector((state) => state.user)
+    const [userName, setUserName] = useState(user.userName || '');
+  
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
         setUserName(e.target.value);
@@ -13,6 +23,8 @@ function EditUserInfo ({ user, onSubmit, onCancel}) {
         e.preventDefault();
         // Envoyer les données mises à jour au composant parent via onSubmit
         onSubmit({ ...user, userName });
+        // Envoyer l'action Redux pour mettre à jour le userName
+        dispatch(updateUserName(userName));
       };
 
     return (
