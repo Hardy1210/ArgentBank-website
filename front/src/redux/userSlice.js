@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     // Initialiser les informations utilisateur à partir du stockage local ou de sessionStorage
-  userName: localStorage.getItem('userName') || sessionStorage.getItem('userName') || '',
+  userName: '',
   firstName: '',
   lastName: '',
 };
@@ -16,7 +16,7 @@ const userSlice = createSlice({
       //const { userName, firstName, lastName } = action.payload;
       state.userName = action.payload.userName;
       state.firstName = action.payload.firstName || state.firstName;
-      state.lastName = action.payload.lastName || state.firstName;
+      state.lastName = action.payload.lastName || state.lastName;
     },
     updateUserName: (state, action) => {
       state.userName = action.payload;

@@ -7,3 +7,5 @@ export const store = configureStore({
         user: userReducer,
     }
 })
+
+export default store

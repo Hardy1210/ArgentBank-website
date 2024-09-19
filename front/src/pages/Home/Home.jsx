@@ -5,9 +5,20 @@ import BannerImg from '../../assets/images/bank-tree-1.webp'
 import FeatureCard from '../../components/FeatureCard/FeatureCard'
 import featuresData from '../../data/featuresData'
 import Footer from '../../components/Footer/Footer'
+//Redux
+import { useSelector } from 'react-redux'
+//import { setUserProfile } from '../../redux/userSlice'
+//import { useEffect } from 'react'
+
 import styles from '../Home/home.module.scss'
 
 function Home () {
+    //Redux
+    //const dispatch = useDispatch()
+    //redux pour l'extration du profil  ou userName de m'utilisateur
+    const userName = useSelector((state) => state.user.userName)
+    console.log('username desde redux:', userName)
+   
 
     return (
         <>

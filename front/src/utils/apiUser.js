@@ -3,7 +3,7 @@ export const getUserProfile = async () => {
 
   // Récupérer le token depuis le stockage local ou session
   const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-
+  
   if (!token) {
     throw new Error('No authentication token found');
   }

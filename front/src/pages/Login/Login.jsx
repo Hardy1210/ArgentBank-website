@@ -6,7 +6,7 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { loginRequest } from '../../utils/apiLogin'  // Importation du fichier de requête
-
+import { saveToken } from '../../utils/sessionManager';  // Importation de sessionManager.js
 //redux
 import { useDispatch } from 'react-redux';
 import { setUserProfile } from '../../redux/userSlice'
@@ -16,6 +16,7 @@ import styles from '../Login/login.module.scss'
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  //rememberMe qui travai en lien avce sessionManager.js
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState(null)
 
@@ -29,20 +30,12 @@ function Login() {
     e.preventDefault();  // Empêche le rechargement de la page
 
     try {
-      const { token} = await loginRequest(email, password)
+      const { token } = await loginRequest(email, password)
       console.log('Login Response:', { token });
-      // Stocker les données utilisateur dans Redux après une connexion réussie
-       // Enregistrer dans Redux immédiatement après connexion réussie
-       
-
-      if (rememberMe) {
-        localStorage.setItem('authToken', token);
-        //localStorage.setItem('userName', userName);
-      } else {
-        sessionStorage.setItem('authToken', token);
-        //sessionStorage.setItem('userName', userName);
-      }
       
+      // Utiliser sessionManager pour enregistrer le token
+      saveToken(token, rememberMe);
+       
       // Ici vous pouvez récupérer le profil utilisateur après la connexion
       // Puis utiliser dispatch pour mettre à jour le store Redux avec les infos utilisateur
       dispatch(setUserProfile({
@@ -50,10 +43,11 @@ function Login() {
         firstName: '',
         lastName: '',
       }));
-
     
       // Rediriger vers le tableau de bord après la connexion
-      navigate('/dashboard-user');
+      navigate('/dashboard-user')
+
+      
     } catch (error) {
       console.error('Error during login:', error);
       setError(error.message);
