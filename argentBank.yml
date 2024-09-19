@@ -1,0 +1,144 @@
+
+"openapi": "3.0.0"
+"info":
+  "title": "API ArgentBank - Transactions"
+  "version": "1.0.0"
+"paths":
+  "/accounts":
+    "get":
+      "summary": "Récupère la liste de tous les comptes de l'utilisateur"
+      "responses":
+        "200":
+          "description": "Liste des comptes récupérée avec succès"
+          "content":
+            "application/json":
+              "schema":
+                "type": "array"
+                "items":
+                  "type": "object"
+                  "properties":
+                    "accountId":
+                      "type": "string"
+                      "description": "Numéro partiel du compte"
+                    "type":
+                      "type": "string"
+                      "description": "Type de compte (Checking, Savings, Credit Card)"
+                    "balance":
+                      "type": "number"
+                      "description": "Solde disponible sur le compte"
+                    "currency":
+                      "type": "string"
+                      "description": "Devise du compte"
+                    "availableBalance":
+                      "type": "boolean"
+                      "description": "Indique si c'est le solde disponible"
+        "500":
+          "description": "Erreur interne du serveur"
+  "/accounts/{accountId}/transactions":
+    "get":
+      "summary": "Récupère toutes les transactions d'un compte spécifique"
+      "parameters":
+        -
+          "name": "accountId"
+          "in": "path"
+          "required": true
+          "description": "L'ID du compte"
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Liste des transactions pour le compte donné"
+          "content":
+            "application/json":
+              "schema":
+                "type": "array"
+                "items":
+                  "type": "object"
+                  "properties":
+                    "transactionId":
+                      "type": "string"
+                      "description": "L'ID unique de la transaction"
+                    "date":
+                      "type": "string"
+                      "format": "date"
+                      "description": "Date de la transaction"
+                    "description":
+                      "type": "string"
+                      "description": "Description de la transaction"
+                    "amount":
+                      "type": "number"
+                      "description": "Montant de la transaction"
+                    "balance":
+                      "type": "number"
+                      "description": "Solde après la transaction"
+        "404":
+          "description": "Liste des transactions non trouvées"
+        "500":
+          "description": "Erreur interne du serveur"
+  "/transactions/{transactionId}":
+    "get":
+      "summary": "Récupère les détails d'une transaction spécifique"
+      "parameters":
+        -
+          "name": "transactionId"
+          "in": "path"
+          "required": true
+          "description": "L'ID de la transaction"
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Détails de la transaction récupérés avec succès"
+          "content":
+            "application/json":
+              "schema":
+                "type": "object"
+                "properties":
+                  "transactionId":
+                    "type": "string"
+                    "description": "L'ID unique de la transaction"
+                  "transaction type":
+                    "type": "string"
+                    "description": "Type de transaction"
+                  "category":
+                    "type": "string"
+                    "description": "Catégorie de la transaction"
+                  "note":
+                    "type": "string"
+                    "description": "Note associée à la transaction"
+        "404":
+          "description": "Détails de la transaction transaction non trouvée"
+        "500":
+          "description": "Erreur interne du serveur"
+    "put":
+      "summary": "Modifie les informations d'une transaction (catégorie et/ou note)"
+      "parameters":
+        -
+          "name": "transactionId"
+          "in": "path"
+          "required": true
+          "description": "L'ID de la transaction à modifier"
+          "schema":
+            "type": "string"
+      "requestBody":
+        "required": true
+        "content":
+          "application/json":
+            "schema":
+              "type": "object"
+              "properties":
+                "category":
+                  "type": "string"
+                  "description": "Catégorie de la transaction (facultatif)"
+                "note":
+                  "type": "string"
+                  "description": "Note associée à la transaction (facultatif)"
+      "responses":
+        "200":
+          "description": "Mise à jour du type de transaction avec succès"
+        "400":
+          "description": "Requête invalide"
+        "404":
+          "description": "Transaction non trouvée"
+        "500":
+          "description": "Erreur interne du serveur"
