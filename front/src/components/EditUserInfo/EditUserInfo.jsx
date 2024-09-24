@@ -10,7 +10,6 @@ import styles from '../EditUserInfo/EditUserInfo.module.scss'
 
 function EditUserInfo ({ user, onSubmit, onCancel}) {
     // Utiliser Redux pour accéder à l'utilisateur actuel
-    //const user = useSelector((state) => state.user)
     const [userName, setUserName] = useState(user.userName || '');
   
     const dispatch = useDispatch();

@@ -4,15 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../Header/header.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
-//import { getUserProfile } from '../../utils/apiUser';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../redux/userSlice';// Importer l'action logout depuis userSlice
 
 import { NavLink } from 'react-router-dom';
-//import { fetchUserProfile } from '../../utils/apiUser'
-//import { useEffect } from 'react'
 
 function Header({ logoSrc, logoAlt } ) {
     {/*A RETENIR pour verifier le comportement de commen les identifients de l'utilisateur sois dans localStorage
@@ -36,8 +33,6 @@ function Header({ logoSrc, logoAlt } ) {
     //console.log('userName in Header:', userName);
     const dispatch = useDispatch()
 
-    
-    
     //Gestion de logout
     const handleLogout = () => {
         // Supprimer les informations de l'utilisateur de localStorage et sessionStorage
@@ -54,8 +49,6 @@ function Header({ logoSrc, logoAlt } ) {
 
         // Déclencher l'action logout pour réinitialiser l'état utilisateur dans Redux
         dispatch(logout())
-
-       
       }
 
     return (
@@ -65,7 +58,6 @@ function Header({ logoSrc, logoAlt } ) {
                 <img className={styles['main__nav--img']} src={logoSrc} alt={logoAlt} />
                 <h1 className={styles['sr__only']}>Argent Bank</h1>
                 </NavLink>
-
                 <div>
                     {userName ? (
                         <div className={styles['user__menu']}>

@@ -11,7 +11,12 @@ export const loginRequest = async (email, password) => {
     });
   
     if (!response.ok) {
-      throw new Error('Login failed, please check your credentials');
+      // Vérifier si la réponse contient un statut 401 ou 403
+      if (response.status === 400) {
+        throw new Error('Email ou mot de passe incorrect');
+      } else {
+        throw new Error('Une erreur est survenue, veuillez réessayer');
+      }
     }
   
     const data = await response.json();
@@ -20,8 +25,5 @@ export const loginRequest = async (email, password) => {
      // S'assurer que toutes les données nécessaires sont présentes dans la réponse
     return {
       token: data.body.token,
-      //userName: data.body.userName,  // Si l'API retourne également ces informations
-      //firstName: data.body.firstName,
-      //lastName: data.body.lastName,
     }
   };

@@ -17,6 +17,10 @@ main {
             margin-block-end: 0.83em;
             font-weight: bold;
         }
+        .error {
+            color: rgb(235, 9, 9);
+            margin-top: 10px;
+        }
     }
     .input__wrapper {
         display: flex;
@@ -30,16 +34,16 @@ main {
             padding: 5px;
             font-size: 1.2rem;
         }
-
+        .error__input {
+            color: red;
+        }
     }
-
     .input__remember {
         display: flex;
         label {
             margin-left: 0.25rem;
         }
     }
-
     .sign-in-button {
         display: block;
         width: 100%;

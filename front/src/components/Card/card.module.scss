@@ -38,14 +38,17 @@
 
 @media (max-width: 920px) {
     .card__container {
-        position: relative;
-        top: 2rem;
+        //position: relative;
+        //top: 2rem;
         width: 200px;
-        background: white;
+       // background: white;
         padding: 2rem;
         text-align: left;
-        margin: 0 auto;
-        right: 0;
+        margin: 0 ;
+        //right: 0;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         .subtitle {
             font-size: 1rem;
             margin: 0;

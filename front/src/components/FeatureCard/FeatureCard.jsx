@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import styles from '../FeatureCard/FeatureCard.module.scss'
 
-
 function FeatureCard ({ data, className }) {
     return (
         <div className={`${styles['feature__item']} ${className}`}>
@@ -21,4 +20,4 @@ FeatureCard.propTypes = {
     }).isRequired,
     className: PropTypes.string
 }
-export default FeatureCard
+export default FeatureCard 

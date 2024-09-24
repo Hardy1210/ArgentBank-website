@@ -11,7 +11,7 @@
             //object-fit: cover;
             //changer  en media
             //object-position: 0% 33%;
-            background-image: url('../../assets/images/bank-tree-1.webp');
+            //background-image: url('../../assets/images/bank-tree-1.webp');
             height: 400px;
             background-position: 0% 33%;
             background-size: cover;
@@ -48,6 +48,7 @@
 }
 @media (max-width: 920px) {
     .banner__container {
+        
         .banner {
             position: relative;
             background-position: 0 -50px;

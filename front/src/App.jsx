@@ -11,7 +11,7 @@ import { setUserProfile } from './redux/userSlice';
 import { useEffect } from 'react'
 
 //on a centralise lobtention du profil utilisateur pour 
-//que redux gere de maniere optimal leta fgeneral de l'app
+//que redux gere de maniere optimal l'eta fgeneral de l'app
 function App() {
 
   const dispatch = useDispatch()

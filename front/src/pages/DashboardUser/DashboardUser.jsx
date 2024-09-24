@@ -19,7 +19,6 @@ import AccountBank from '../../components/AcountBank/AccountBank';
 //importation des informations bancaires
 import bankAccountsData from '../../utils/bankAccountsData'
 
-
 function DashboardUser() {
   
   //eta pour controle l'affichage du formulaire d'edition
@@ -109,11 +108,10 @@ function DashboardUser() {
 
   // Condicional para mostrar el estado de carga
   //attention cest la condiction logic de EditUserInfo 
-  //qui va a empeche la recharge de la page apres le changemen de m'userName
+  //qui va a empeche la recharge de la page apres le changemen de m'userName 
   if (isLoading) {
     return <p>Loading user data, please wait...</p>; // Mensaje de carga
   }
-
 
   return (
     <>
@@ -138,7 +136,6 @@ function DashboardUser() {
             onCancel={handleCancelEdit}
           />
         )}
-
           <section className={styles['account__details']}>
           {accounts.map((account, index) => (
             <AccountBank
@@ -152,8 +149,6 @@ function DashboardUser() {
         </div>
       </main> 
       <Footer />
-      
-
     </>
   );
 }

@@ -3,10 +3,7 @@ import styles from '../ButtonTransactions/ButtonTransactions.module.scss'
 
 function ButtonTransactions ({ transactions }) {
     return (
-        
             <button className={styles['button']}>{transactions}</button>
-        
-        
     )
 }
 

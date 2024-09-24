@@ -1,59 +1,65 @@
-import Logo from '../../assets/images/argentBankLogo-1.webp'
-import Header from '../../components/Header/Header'
-import Footer from '../../components/Footer/Footer'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleUser } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { loginRequest } from '../../utils/apiLogin'  // Importation du fichier de requête
-import { saveToken } from '../../utils/sessionManager';  // Importation de sessionManager.js
-//redux
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setUserProfile } from '../../redux/userSlice'
-
-import styles from '../Login/login.module.scss'
+import { setUserProfile } from '../../redux/userSlice';
+import { loginRequest } from '../../utils/apiLogin';
+import { saveToken } from '../../utils/sessionManager';
+import styles from '../Login/login.module.scss';
+import Logo from '../../assets/images/argentBankLogo-1.webp';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //rememberMe qui travai en lien avce sessionManager.js
   const [rememberMe, setRememberMe] = useState(false);
-  const [error, setError] = useState(null)
+  const [errors, setErrors] = useState({ email: '', password: '', general: '' });
 
-  //redux
-  const dispatch = useDispatch()
-  //react router
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  // Fonction pour gérer la soumission du formulaire
+
+  const validateFields = () => {
+    let newErrors = { email: '', password: '', general: '' };
+
+    // Si tous les champs sont vides, afficher uniquement le message général
+    if (!email && !password) {
+      newErrors.general = "Veuillez remplir tous les champs";
+    } else {
+      // Vérifications individuelles seulement si tous les champs ne sont pas vides
+      if (!email) newErrors.email = "L'email est vide. Veuillez entrer un email.";
+      if (!password) newErrors.password = "Le mot de passe est vide. Veuillez entrer un mot de passe.";
+    }
+
+    return newErrors;
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();  // Empêche le rechargement de la page
+    e.preventDefault();
+    setErrors({ email: '', password: '', general: '' });
+
+    const validationErrors = validateFields();
+    if (validationErrors.general || validationErrors.email || validationErrors.password) {
+      setErrors(validationErrors);
+      return;
+    }
 
     try {
-      const { token } = await loginRequest(email, password)
-      console.log('Login Response:', { token });
-      
-      // Utiliser sessionManager pour enregistrer le token
+      const { token } = await loginRequest(email, password);
       saveToken(token, rememberMe);
-       
-      // Ici vous pouvez récupérer le profil utilisateur après la connexion
-      // Puis utiliser dispatch pour mettre à jour le store Redux avec les infos utilisateur
+
       dispatch(setUserProfile({
         userName: '',
         firstName: '',
         lastName: '',
       }));
-    
-      // Rediriger vers le tableau de bord après la connexion
-      navigate('/dashboard-user')
 
-      
+      navigate('/dashboard-user');
     } catch (error) {
-      console.error('Error during login:', error);
-      setError(error.message);
+      setErrors((prev) => ({ ...prev, general: error.message }));
     }
-    
-  }
+  };
 
   return (
     <>
@@ -69,8 +75,19 @@ function Login() {
                 type="email"
                 id="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  // Effacer l'erreur email lorsque l'utilisateur commence à saisir
+                  if (errors.email) {
+                    setErrors((prevErrors) => ({ ...prevErrors, email: '' }));
+                  }
+                  // Si l'erreur générale était due à des champs vides, elle doit aussi être effacée si les deux champs sont remplis
+                  if (errors.general && e.target.value && password) {
+                    setErrors((prevErrors) => ({ ...prevErrors, general: '' }));
+                  }
+                }}
               />
+              {errors.email && !errors.general && <p className={styles['error']}>{errors.email}</p>}
             </div>
 
             <div className={styles['input__wrapper']}>
@@ -79,8 +96,19 @@ function Login() {
                 type="password"
                 id="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  // Effacer l'erreur email lorsque l'utilisateur commence à saisir
+                  if (errors.password) {
+                    setErrors((prevErrors) => ({ ...prevErrors, password: '' }));
+                  }
+                  // Si l'erreur générale était due à des champs vides, elle doit aussi être effacée si les deux champs sont remplis
+                  if (errors.general && e.target.value && email) {
+                    setErrors((prevErrors) => ({ ...prevErrors, general: '' }));
+                  }
+                }}
               />
+              {errors.password && !errors.general && <p className={styles['error']}>{errors.password}</p>}
             </div>
 
             <div className={styles['input__remember']}>
@@ -94,8 +122,7 @@ function Login() {
             </div>
 
             <button type="submit" className={styles['sign-in-button']}>Sign In</button>
-
-            {error && <p className={styles.error}>{error}</p>}
+            {errors.general && <p className={styles['error']}>{errors.general}</p>}
           </form>
         </section>
       </main>
